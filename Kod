@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+
+class QuizApplication
+{
+    static void Main()
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("Welcome to the Quiz Application!");
+            Console.WriteLine("1. Start Quiz");
+            Console.WriteLine("2. Exit");
+            Console.Write("Choose an option (1 or 2): ");
+
+            string choice = Console.ReadLine();
+
+            if (choice == "1")
+            {
+                StartQuiz();
+            }
+            else if (choice == "2")
+            {
+                Console.WriteLine("Thanks for playing! Goodbye.");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    static void StartQuiz()
+    {
+        int score = 0;
+        List<(string Question, string[] Options, string Answer)> questions = new List<(string, string[], string)>
+        {
+            ("What is the chemical symbol for water?", new[] { "A) H2O", "B) O2", "C) CO2" }, "A"),
+            ("Which country is famous for the Eiffel Tower?", new[] { "A) Italy", "B) France", "C) Germany" }, "B"),
+            ("Mount Everest is the tallest mountain on Earth.", new string[0], "True"),
+            ("Name the capital city of Japan.", new string[0], "Tokyo")
+        };
+
+        foreach (var (Question, Options, Answer) in questions)
+        {
+            Console.Clear();
+            AskQuestion(Question, Options);
+            string userAnswer = Console.ReadLine();
+
+            if (CheckAnswer(userAnswer, Answer))
+            {
+                Console.WriteLine("Correct!");
+                score += 5;
+            }
+            else
+            {
+                Console.WriteLine($"Wrong! The correct answer was: {Answer}");
+            }
+        }
+
+        DisplayScore(score);
+        Console.WriteLine("Press any key to return to the main menu...");
+        Console.ReadKey();
+    }
+
+    static void AskQuestion(string question, string[] options)
+    {
+        Console.WriteLine(question);
+        foreach (var option in options)
+        {
+            Console.WriteLine(option);
+        }
+        Console.Write("Your answer: ");
+    }
+
+    static bool CheckAnswer(string userAnswer, string correctAnswer)
+    {
+        return userAnswer.Trim().Equals(correctAnswer, StringComparison.OrdinalIgnoreCase);
+    }
+
+    static void DisplayScore(int score)
+    {
+        Console.Clear();
+        Console.WriteLine($"Your total score is: {score} out of 20");
+
+        if (score >= 16)
+            Console.WriteLine("Excellent! Great job!");
+        else if (score >= 12)
+            Console.WriteLine("Good work!");
+        else if (score >= 8)
+            Console.WriteLine("Not bad, keep practicing.");
+        else if (score >= 4)
+            Console.WriteLine("You can do better! Study a bit more.");
+        else
+            Console.WriteLine("Better luck next time. Don't give up!");
+    }
+}
